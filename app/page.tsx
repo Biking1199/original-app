@@ -1,66 +1,43 @@
-import { useState, useEffect } from "react";
-import { supabase } from "@/lib/supabase";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+'use client'
+
+import { supabase } from '@/lib/supabase';
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
+import { Diary } from './types/diary';
+
 
 export default function Home() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [message, setMessage] = useState("");
-  const router = useRouter();
+  const [diaries, setDiaries] = useState<Diary[]>([]);
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      const {
-        data: { session },
-        error: sessionError,
-      } = await supabase.auth.getSession();
-
-      if (sessionError || !session || !session.user) {
-        setMessage("ログインセッションがありません。ログインしてください。");
-        setIsLoading(false);
-        router.replace("/components/signin");
-        return;
-      }
-      const user = session.user;
-
-      const { data: tasks, error } = await supabase
-        .from("tasks")
-        .select("*")
-        .eq("user_id", user.id);
+    const fetchDiaries = async () => {
+      const { data, error } = await supabase.from('diaries').select('*').order('created_at', { ascending: false });
 
       if (error) {
-        setMessage("タスクの取得に失敗しました。");
+        console.error('Error fetching diaries:', error);
       } else {
-        setTasks(tasks); //
+        setDiaries(data);
       }
-      setIsLoading(false);
     };
-    fetchTasks();
+
+    fetchDiaries();
   }, []);
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-500"></div>
-      </div>
-    );
-  }
+
   return (
-    <>
-      <h1>日記一覧</h1>
-      <div>
-        <Link
-          href="/components/signup"
-          className="bg-yellow-500 text-white px-4 py-2 rounded"
-        >
-          サインアップ
-        </Link>
-        <Link
-          href="components/signin"
-          className="bg-green-500 text-white px-4 py-2 rounded"
-        >
-          サインイン
-        </Link>
-      </div>
-    </>
+    <div className="container mx-auto p-4">
+      <h1 className="text-2xl font-bold mb-4">日記一覧</h1>
+      <Link href="/new">
+        <button className="bg-blue-500 text-white px-4 py-2 rounded">日記を作成</button>
+      </Link>
+      <ul className="mt-4">
+        {diaries.map((diary) => (
+          <li key={diary.id} className="border p-2 mb-2">
+            <h2 className="font-bold">{diary.title}</h2>
+            <p className="text-gray-600">{diary.content}</p>
+            <p className="text-sm text-gray-400">{new Date(diary.created_at).toLocaleString()}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
