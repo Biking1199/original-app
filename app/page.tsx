@@ -14,7 +14,7 @@ export default function Home() {
       const { data, error } = await supabase.from('diaries').select('*').order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Error fetching diaries:', error);
+        console.error('Error fetching diaries:', error.message || error);
       } else {
         setDiaries(data);
       }
@@ -31,10 +31,10 @@ export default function Home() {
       </Link>
       <ul className="mt-4">
         {diaries.map((diary) => (
-          <li key={diary.id} className="border p-2 mb-2">
-            <h2 className="font-bold">{diary.title}</h2>
-            <p className="text-gray-600">{diary.content}</p>
-            <p className="text-sm text-gray-400">{new Date(diary.created_at).toLocaleString()}</p>
+          <li key={diary.id} className="border p-4 mb-2 flex justify-between items-center ">
+            <p>{diary.created_at}</p>
+            <Link href={`diary/${diary.id}`} className="font-bold text-blue-500">{diary.title}</Link>
+            <p>{diary.content}</p>
           </li>
         ))}
       </ul>
