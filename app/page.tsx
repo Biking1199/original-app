@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Diary } from './types/diary';
-import { Calendar, HandHeart, PencilLine } from 'lucide-react';
+import { Calendar, HandHeart, PencilLine, LogIn, LogOut, SquarePen } from 'lucide-react';
 
 
 export default function Home() {
@@ -26,6 +26,17 @@ export default function Home() {
 
   return (
     <div className="container mx-auto p-4 min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl">
+      <div className='flex items-center space-x-2 justify-center'>
+      <button className='py-2 px-4 rounded-lg font-semibold transition-all bg-green-400 text-white'>
+          <SquarePen/>
+        </button>
+        <button className='py-2 px-4 rounded-lg font-semibold transition-all bg-blue-400 text-white'>
+          <LogIn/>
+        </button>
+        <button className='py-2 px-4 rounded-lg font-semibold transition-all bg-red-400 text-white'>
+          <LogOut/>
+        </button>
+      </div>
       
       <Link href="/diary/create">
         <button className="p-2 mt-2 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:from-yellow-500 hover:via-orange-600 hover:to-red-600 text-white py-2 rounded-lg flex items-center">
