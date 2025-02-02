@@ -27,7 +27,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <header className= "mt-2">
+          <h1 className="text-3xl font-bold bg-gradient-to-r from-yellow-400 via-orange-600 to-red-500 text-transparent bg-clip-text mb-4">DiaryApp</h1>
+        </header>
+        <main>{children}</main>
+        <footer className="mt-2">
+          <p>&copy; Hibiki Hangai</p>
+        </footer>
       </body>
     </html>
   );
