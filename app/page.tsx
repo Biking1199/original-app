@@ -4,7 +4,7 @@ import { supabase } from '@/lib/supabase';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Diary } from './types/diary';
-import { Calendar, HandHeart } from 'lucide-react';
+import { Calendar, HandHeart, PencilLine } from 'lucide-react';
 
 
 export default function Home() {
@@ -28,7 +28,10 @@ export default function Home() {
     <div className="container mx-auto p-4 min-h-screen bg-gradient-to-br from-orange-50 to-yellow-50 rounded-2xl">
       
       <Link href="/diary/create">
-        <button className="p-2 mt-2 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:from-yellow-500 hover:via-orange-600 hover:to-red-600 text-white py-2 rounded-lg">日記を作成</button>
+        <button className="p-2 mt-2 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 hover:from-yellow-500 hover:via-orange-600 hover:to-red-600 text-white py-2 rounded-lg flex items-center">
+          <PencilLine className="w-4 h-4"/>
+          日記を作成
+        </button>
       </Link>
       
       <article className="group bg-white/60 backdrop-blur-sm rounded-2xl p-6 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100">
